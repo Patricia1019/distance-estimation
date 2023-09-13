@@ -6,16 +6,19 @@ import argparse
 import torch
 import model.detector
 import utils.utils
+import pdb
 
 if __name__ == '__main__':
     #指定训练配置文件
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, default='', 
+    parser.add_argument('--data', type=str, default='data/coco.data', 
                         help='Specify training profile *.data')
-    parser.add_argument('--weights', type=str, default='', 
+    parser.add_argument('--weights', type=str, default='modelzoo/coco2017-0.241078ap-model.pth', 
                         help='The path of the .pth model to be transformed')
     parser.add_argument('--img', type=str, default='', 
                         help='The path of test image')
+    parser.add_argument('--out', type=str, default='', 
+                        help='The path of out image')
 
     opt = parser.parse_args()
     cfg = utils.utils.load_datafile(opt.data)
@@ -71,6 +74,6 @@ if __name__ == '__main__':
         cv2.putText(ori_img, '%.2f' % obj_score, (x1, y1 - 5), 0, 0.7, (0, 255, 0), 2)	
         cv2.putText(ori_img, category, (x1, y1 - 25), 0, 0.7, (0, 255, 0), 2)
 
-    cv2.imwrite("test_result.png", ori_img)
+    cv2.imwrite(opt.out, ori_img)
     
 
